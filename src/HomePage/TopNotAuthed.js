@@ -3,7 +3,7 @@ import { Image,Container, Menu, Button, Segment, Form } from "semantic-ui-react"
 import { Link} from 'react-router-dom'
 import logo2 from '../img/logo2.png'
 
-class Top extends Component{
+class TopNotAuthed extends Component{
 
     render(){
         return (
@@ -23,7 +23,7 @@ class Top extends Component{
               size='large'
             >
               <Container style={{ minHeight: 80, padding: '1em 0em' }}>
-                <Link to="/lessons">
+                <Link to="/">
                 <Image src={logo2} size='small'  />
                 </Link>
                 <Menu.Item position='right'  inverted>
@@ -36,4 +36,4 @@ class Top extends Component{
     }
 }
 
-export default Top
+export default TopNotAuthed

@@ -2,26 +2,41 @@ import React, {Component} from 'react'
 import { Radio, Header, Segment } from "semantic-ui-react";
 
 class QuizQuestion extends Component{
+    state ={
+        quiz : []
+    }
+
+    handleChange =(optionId, questionId)=>{
+
+        console.log(optionId)
+        console.log(questionId)
+
+        let {quiz} = this.state
+
+
+    }
+
+
 
     render(){
-        const {question, answer1, answer2, answer3, answer4,
-            answer1Id, answer2Id, answer3Id, answer4Id } = this.props
+        const {questionName, questionId, options} = this.props
+        console.log(questionId);
         return (
             <div>
-                <Header as="h4">{question}</Header>
+                <Header as="h4">{questionName}</Header>
     
-                <Segment vertical>
-                <Radio name="radioGroup" toggle label={answer1} value={answer1Id} />
-                </Segment>
-                <Segment vertical>
-                <Radio name="radioGroup" toggle label={answer2} value={answer2Id} />
-                </Segment>
-                <Segment vertical>
-                <Radio name="radioGroup" toggle label={answer3} value={answer3Id} />
-                </Segment>
-                <Segment vertical>
-                <Radio name="radioGroup" toggle label={answer4} value={answer4Id}/>
-                </Segment>
+                {options && options.map((option)=>(
+                                <span key={option.Id}>
+                                    <Segment vertical>
+                                        <Radio name={"radioGroup" +{questionId} } 
+                                            toggle label={option.Option} 
+                                            value={option.Id} 
+                                            
+                                            onChange={(e)=>this.handleChange(option.Id, questionId)}
+                                            />
+                                    </Segment>                                    
+                                </span>
+                            ))}
           </div>
         )
     }

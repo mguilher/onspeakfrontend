@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 
 import { Message, Icon, Segment, Container } from 'semantic-ui-react'
 
-import Top from '../HomePage/Top'
+import TopNotAuthed from '../HomePage/Top'
 
 class UserWrong extends Component{
 
@@ -10,7 +10,7 @@ class UserWrong extends Component{
         return (
 
              <div>
-                <Top />
+                <TopNotAuthed />
                 <Container>
 
                     <Message  compact negative

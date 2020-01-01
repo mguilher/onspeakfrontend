@@ -58,7 +58,7 @@ class LessonDetailsModal extends Component{
                   </Grid.Row>
                   <Grid.Row>
                       <Grid.Column>
-                            <QuizTitle />
+                            { /*<QuizTitle />*/}
                       </Grid.Column>
                   </Grid.Row>
                 </Grid>

@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
-import { Redirect } from "react-router-dom";
+import { Redirect, Route,withRouter  } from "react-router-dom";
 
 import { Button, Modal,  Form, Grid, Header,  Segment  } from 'semantic-ui-react'
-
+import LessonList from '../Lessons/LessonList'
 import * as OnBoardingApi from '../Proxy/OnBoarding'
 
 class LoginModal extends Component {
-  state = { open: false }
   state = 
   { 
       open: false,
       email: '',
       password:'',
       userValid: false,
-      wrongUser:false
+      wrongUser: false
   }
 
 
@@ -25,37 +24,30 @@ class LoginModal extends Component {
 
   inputChange = (e, { name, value }) => this.setState({ [name]: value })
 
-  userValid =()=>{
+  
+  userValid =(e)=>{
+    e.preventDefault()
 
     const { email,password } = this.state
     const json ={
         "email": email,
         "password": password
     }
-    console.log(json)
-
 
     OnBoardingApi.Login(json)
-    .then(
-        res => {
-          if(res.error)
-          {
-            this.setState({ userValid: false })
-            this.setState({wrongUser:true})
-          }
-          else {
-            this.setState({ userValid: true })
-            this.setState({wrongUser:false})
-          }
-        }
+    this.setState({userValid: true, wrongUser: false})
+    
 
-      )
-      //Fazer Login
-      
+
+    //OnBoardingApi.Login(json).then(e=>this.setState({userValid: !e, wrongUser:e}  ))
+    
   }
+
+
 
   render() {
     const { open, closeOnEscape, closeOnDimmerClick, email, password, userValid, wrongUser } = this.state
+
 
     if (userValid === true) {
         return <Redirect to='/lessons' />
@@ -65,8 +57,16 @@ class LoginModal extends Component {
       return <Redirect to='/userwrong' />
     }
 
+
+
     return (
       <div>
+           {/*
+        <Route path="/lessons" render={()=>(
+                    <LessonList isAuthed={true}/>
+                  )} 
+                />
+        */}  
        <Button basic color='teal' as='a'
        onClick={this.closeConfigShow(true, false)}>
        Log in
@@ -105,8 +105,8 @@ class LoginModal extends Component {
                                 <Button  size='large'
                                     onClick={this.close}>Cancel</Button>
                                 <Button.Or text='or' />
-                                <Button color='teal' size='large'
-                                onClick={this.userValid}>Login</Button>
+                                <Button onClick={this.userValid} color='teal' size='large'
+                                >Login</Button>
                             </Button.Group>
 
 
@@ -122,4 +122,5 @@ class LoginModal extends Component {
   }
 }
 
-export default LoginModal
+export default withRouter(LoginModal);
+
