@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Redirect, Route,withRouter  } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { Button, Modal,  Form, Grid, Header,  Segment  } from 'semantic-ui-react'
-import LessonList from '../Lessons/LessonList'
 import * as OnBoardingApi from '../Proxy/OnBoarding'
 
 class LoginModal extends Component {
@@ -50,11 +49,11 @@ class LoginModal extends Component {
 
 
     if (userValid === true) {
-        return <Redirect to='/lessons' />
+        return <Navigate to='/lessons' replace />
       }
 
     if (wrongUser===true){
-      return <Redirect to='/userwrong' />
+      return <Navigate to='/userwrong' replace />
     }
 
 
@@ -122,5 +121,5 @@ class LoginModal extends Component {
   }
 }
 
-export default withRouter(LoginModal);
+export default LoginModal;
 

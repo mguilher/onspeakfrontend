@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import 'semantic-ui-css/semantic.min.css';
 import LessonList from './Lessons/LessonList';
@@ -13,31 +13,12 @@ import UserWrong from './Login/UserWrong';
 function App() {
   return (
     <div>
-
-
-      <Route exact path="/" render={()=>(
-          <HomepageLayout />
-        )
-        } /> 
-
-
-      <Route path="/lessons" render={()=>(
-            <LessonList/>
-          )} 
-        />   
-
-      <Route path="/welcome" render={()=>(
-            <AfterSignUpForm/>
-          )} 
-        />  
-
-        <Route path="/userwrong" render={()=>(
-            <UserWrong/>
-          )} 
-        />            
-
-          
-
+      <Routes>
+        <Route exact path="/" element={<HomepageLayout />} />
+        <Route path="/lessons" element={<LessonList />} />
+        <Route path="/welcome" element={<AfterSignUpForm />} />
+        <Route path="/userwrong" element={<UserWrong />} />
+      </Routes>
     </div>
   );
 }

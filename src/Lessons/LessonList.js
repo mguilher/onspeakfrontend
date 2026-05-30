@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import LessonCard from './LessonCard'
 import Top from '../HomePage/Top'
 import { Image,Container, Card, Icon, Button, Input, Segment, Form } from "semantic-ui-react";
-import { Redirect } from "react-router-dom";
 
 import logo2 from '../img/logo2.png'
 

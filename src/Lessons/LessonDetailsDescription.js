@@ -31,7 +31,7 @@ class LessonDetailsDescription extends Component{
             </Accordion.Title>
             <Accordion.Content active={this.state.activeIndex === 0}>
               <p>
-                {videoDescription}}
+                {videoDescription}
               </p>
             </Accordion.Content>
           </Accordion>            
