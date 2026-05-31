@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import { Button, Modal,  Form, Grid, Header,  Segment, Message  } from 'semantic-ui-react'
 
@@ -48,7 +48,7 @@ class SignUpModal extends Component {
             name, document, email, password, signUpCompleted } = this.state
 
             if (signUpCompleted === true) {
-                return <Redirect to='/welcome' />
+                return <Navigate to='/welcome' replace />
               }            
 
     return (

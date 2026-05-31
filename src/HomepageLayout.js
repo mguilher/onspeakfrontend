@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Button,
   Container,
@@ -10,7 +10,6 @@ import {
   Image,
   List,
   Menu,
-  Responsive,
   Segment,
   Visibility,
 } from 'semantic-ui-react'
@@ -18,15 +17,20 @@ import logo from './img/logo.png'
 import LoginModal from './Login/LoginModal'
 import SingUpModal from './Login/SignUpModal'
 
+const TABLET_MIN_WIDTH = 768;
+const MOBILE_MAX_WIDTH = 767;
 
-// Heads up!
-// We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
-// For more advanced usage please check Responsive docs under the "Usage" section.
-const getWidth = () => {
-  const isSSR = typeof window === 'undefined'
-
-  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
-}
+const useWindowWidth = () => {
+  const isSSR = typeof window === 'undefined';
+  const [width, setWidth] = useState(isSSR ? TABLET_MIN_WIDTH : window.innerWidth);
+  useEffect(() => {
+    if (isSSR) return;
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isSSR]);
+  return width;
+};
 
 /* eslint-disable react/no-multi-comp */
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
@@ -67,113 +71,95 @@ HomepageHeading.propTypes = {
  * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
  * It can be more complicated, but you can create really flexible markup.
  */
-class DesktopContainer extends Component {
-  state = {}
+const DesktopContainer = ({ children }) => {
+  const [fixed, setFixed] = useState(false);
+  const width = useWindowWidth();
 
-  hideFixedMenu = () => this.setState({ fixed: false })
-  showFixedMenu = () => this.setState({ fixed: true })
+  if (width < TABLET_MIN_WIDTH) return null;
 
-  render() {
-    const { children } = this.props
-    const { fixed } = this.state
-
-    return (
-      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
-        <Visibility
-          once={false}
-          onBottomPassed={this.showFixedMenu}
-          onBottomPassedReverse={this.hideFixedMenu}
+  return (
+    <div>
+      <Visibility
+        once={false}
+        onBottomPassed={() => setFixed(true)}
+        onBottomPassedReverse={() => setFixed(false)}
+      >
+        <Segment
+          color='teal'
+          textAlign='center'
+          style={{ minHeight: 350, padding: '1em 0em' }}
+          vertical
+          inverted
         >
-          <Segment
-            color='teal'
-            textAlign='center'
-            style={{ minHeight: 350, padding: '1em 0em' }}
-            vertical
+          <Menu
             inverted
+            style={{ backgroundColor: 'white' }}
+            fixed='top'
+            secondary={true}
+            size='large'
           >
-            <Menu
-              inverted 
-              style={{backgroundColor:'white'}}
-              fixed='top'
-              secondary={true}
-              size='large'
-            >
-              <Container>
+            <Container>
               <Image src={logo} size='small' />
-
-                <Menu.Item position='right'  inverted>
-                  <LoginModal />
-                  <SingUpModal />
-                </Menu.Item>
-              </Container>
-            </Menu>
-            <HomepageHeading />
-          </Segment>
-        </Visibility>
-
-        {children}
-      </Responsive>
-    )
-  }
-}
+              <Menu.Item position='right' inverted>
+                <LoginModal />
+                <SingUpModal />
+              </Menu.Item>
+            </Container>
+          </Menu>
+          <HomepageHeading />
+        </Segment>
+      </Visibility>
+      {children}
+    </div>
+  );
+};
 
 DesktopContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
-class MobileContainer extends Component {
-  state = {}
+const MobileContainer = ({ children }) => {
+  const width = useWindowWidth();
 
-  render() {
-    const { children } = this.props
+  if (width > MOBILE_MAX_WIDTH) return null;
 
-    return (
-      <Responsive
-        getWidth={getWidth}
-        maxWidth={Responsive.onlyMobile.maxWidth}
+  return (
+    <div>
+      <Segment
+        inverted
+        color='teal'
+        textAlign='center'
+        style={{ minHeight: 250, padding: '1em 0em' }}
+        vertical
       >
-
-
-          <Segment
-            inverted
-            color='teal'
-            textAlign='center'
-            style={{ minHeight: 250, padding: '1em 0em' }}
-            vertical
-          >
-            <Container>
-              <Menu 
-                            fixed='top'
-                            secondary={true}
-              inverted size='large' style={{backgroundColor:'white'}}>
-              <Menu.Item position='left'>
+        <Container>
+          <Menu
+            fixed='top'
+            secondary={true}
+            inverted size='large' style={{ backgroundColor: 'white' }}>
+            <Menu.Item position='left'>
               <Image src={logo} size='small' />
             </Menu.Item>
-
-
-                <Menu.Item position='right' fixed>
-                  <Button as='a' basic color='teal'>
-                    Log in
-                  </Button>
-                  <Button as='a' basic color='teal' style={{ marginLeft: '0.5em' }}>
-                    Sign Up
-                  </Button>
-                </Menu.Item>
-              </Menu>
-            </Container>
-            <HomepageHeading mobile />
-          </Segment>
-
-          {children}
-
-      </Responsive>
-    )
-  }
-}
+            <Menu.Item position='right' fixed>
+              <Button as='a' basic color='teal'>
+                Log in
+              </Button>
+              <Button as='a' basic color='teal' style={{ marginLeft: '0.5em' }}>
+                Sign Up
+              </Button>
+            </Menu.Item>
+          </Menu>
+        </Container>
+        <HomepageHeading mobile />
+      </Segment>
+      {children}
+    </div>
+  );
+};
 
 MobileContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
 const ResponsiveContainer = ({ children }) => (
   <div>

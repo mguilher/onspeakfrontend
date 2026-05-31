@@ -3,22 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-payment-card-component": "^0.2.1",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "react-router-dom": "^6.30.0",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^3.2.2",
+    "jsdom": "^26.1.0",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build",
+    "test": "vitest run",
+    "preview": "vite preview"
   },
   "eslintConfig": {
     "extends": "react-app"
